@@ -13,10 +13,9 @@ LOCALE="en_US.UTF-8"
 KEYMAP="us"      
 ROOT_PASSWD="1007"
 USER_PASSWD="1007"
-LUKS_PASSPHRASE="1007"
-BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
 ESP="/dev/nvme0n1p1"
 ARCH_ROOT="/dev/nvme0n1p2"
+BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
 
 # Colors to make things look nice
 bold=$(tput bold)
@@ -33,7 +32,7 @@ infobox() {
 infobox "Installing the base system"
 cp "$DIR"/pacman.conf /etc/
 
-pacstrap /mnt base curl linux intel-ucode linux-firmware grub efibootmgr \
+pacstrap /mnt base curl linux intel-ucode linux-firmware btrfs-progs grub grub-btrfs efibootmgr snapper \
 reflector base-devel zsh git apparmor libxft-bgra firewalld zram-generator mlocate man-db
 
 # Setting hostname.
@@ -71,14 +70,19 @@ curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/faken
 # Generating /etc/fstab.
 infobox "Generating a new fstab."
 genfstab -U -p /mnt  >> /mnt/etc/fstab 
+sed -i 's|,subvolid=258,subvol=/@/.snapshots/1/snapshot,subvol=@/.snapshots/1/snapshott||g' /mnt/etc/fstab 
 micro /mnt/etc/fstab 
 
 # Setting up /etc/default/grub
 infobox "Configuring /etc/default/grub"
 sed -i -e 's/GRUB_DISTRIBUTOR="Arch"/GRUB_DISTRIBUTOR="MyArxh"/g'	/mnt/etc/default/grub 	 
+echo "" >> /mnt/etc/default/grub  
+echo -e "# Booting with BTRFS subvolume\nGRUB_BTRFS_OVERRIDE_BOOT_PARTITION_DETECTION=true" >> /mnt/etc/default/grub 
 sed -i -e 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=2560x1080/g'	/mnt/etc/default/grub 	 
 sed -i 's/#GRUB_THEME.*/GRUB_THEME="\/boot\/grub\/themes\/default\/theme.txt"/g' /mnt/etc/default/grub 	 
 sed -i -e 's|GRUB_DISABLE_RECOVERY=true|#GRUB_DISABLE_RECOVERY=true|g' /mnt/etc/default/grub
-sed -i -e 's|GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet fbcon=nodefer lsm=landlock,lockdown,yama,apparmor,bpf"|g' /mnt/etc/default/grub
+#sed -i -e 's|GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet fbcon=nodefer lsm=landlock,lockdown,yama,apparmor,bpf"|g' /mnt/etc/default/grub
+sed -i -e 's|GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="fbcon=nodefer quiet splash vt.global_cursor_default=0 loglevel=3 rd.systemd.show_status=false rd.udev.log-priority=3 sysrq_always_enabled=1 lsm=landlock,lockdown,yama,apparmor,bpf"|g' /mnt/etc/default/grub
+sed -i 's#rootflags=subvol=${rootsubvol}##g' /mnt/etc/grub.d/10_linux 
 
 micro /mnt/etc/default/grub

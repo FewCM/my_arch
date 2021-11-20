@@ -211,6 +211,7 @@ reflector
 reiserfsprogs
 repoctl
 rofi
+rofi-greenclip
 rp-pppoe
 rustup
 scons
@@ -261,6 +262,7 @@ vpnc
 w3m
 which
 wimlib
+wired
 wireless-regdb
 wireless_tools
 wmctrl

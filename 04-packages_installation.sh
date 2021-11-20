@@ -13,10 +13,9 @@ LOCALE="en_US.UTF-8"
 KEYMAP="us"      
 ROOT_PASSWD="1007"
 USER_PASSWD="1007"
-LUKS_PASSPHRASE="1007"
-BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
 ESP="/dev/nvme0n1p1"
 ARCH_ROOT="/dev/nvme0n1p2"
+BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
        
 # Colors to make things look nice
 bold=$(tput bold)

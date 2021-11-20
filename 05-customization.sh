@@ -13,10 +13,9 @@ LOCALE="en_US.UTF-8"
 KEYMAP="us"      
 ROOT_PASSWD="1007"
 USER_PASSWD="1007"
-LUKS_PASSPHRASE="1007"
-BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
 ESP="/dev/nvme0n1p1"
 ARCH_ROOT="/dev/nvme0n1p2"
+BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
        
 # Colors to make things look nice
 bold=$(tput bold)
@@ -45,12 +44,16 @@ arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/lxdm/lxdm.conf /etc/lxdm/  
 #arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/plymouth/plymouthd.conf /etc/plymouth/ || error "$LINENO"
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/pulse/default.pa /etc/pulse/  || error "$LINENO"
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/pulse/system.pa /etc/pulse/  || error "$LINENO"
+arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/snapper/configs/root /etc/snapper/configs || error "$LINENO"
+arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/snapper/configs/home /etc/snapper/configs || error "$LINENO"
+arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/tmpfiles.d/tmp.conf /etc/tmpfiles.d || error "$LINENO"
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/udev/rules.d/10-network.rules /etc/udev/rules.d  || error "$LINENO"
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/X11/xorg.conf /etc/X11/  || error "$LINENO"
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/xdg/reflector/reflector.conf /etc/xdg/reflector/reflector.conf  || error "$LINENO"
+arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/updatedb.conf /etc/  || error "$LINENO"
 
 infobox  "configuring system hooks"
-arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/share/libalpm/hooks/{50-nvidia.hook,99-fewcm-grub.hook,foreignpkglist.hook,pkglist.hook} /usr/share/libalpm/hooks/ || error "$LINENO"
+arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/share/libalpm/hooks/{90-nvi dia.hook,99-fewcm-grub.hook,foreignpkglist.hook,pkglist.hook} /usr/share/libalpm/hooks/ || error "$LINENO"
 arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/local/bin/{flexipatch-finalizer.sh,screenrecorder,takeshot,update-grub} /usr/local/bin || error "$LINENO"
 arch-chroot /mnt chmod +x /usr/local/bin/{flexipatch-finalizer.sh,screenrecorder,takeshot,update-grub} || error "$LINENO"
 
@@ -58,7 +61,7 @@ arch-chroot /mnt chmod +x /usr/local/bin/{flexipatch-finalizer.sh,screenrecorder
 infobox "Configuring /etc/mkinitcpio.conf"
 sed -i -e 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g'  /mnt/etc/mkinitcpio.conf
 sed -i 's,#COMPRESSION="zstd",COMPRESSION="zstd",g' /mnt/etc/mkinitcpio.conf
-sed -i -e 's/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/g'  /mnt/etc/mkinitcpio.conf
+sed -i -e 's/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck grub-btrfs-overlayfs)/g'  /mnt/etc/mkinitcpio.conf
 micro /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P 
 
@@ -71,7 +74,25 @@ arch-chroot /mnt mkdir -pv /boot/efi/EFI/BOOT
 arch-chroot /mnt cp -rf /boot/efi/EFI/ARCH/grubx64.efi /boot/efi/EFI/BOOT/BOOTx64.efi  
 micro /mnt/boot/grub/grub.cfg 
 
+infobox "Snapper Setup"
+umount /mnt/.snapshots  
+rm -rf /mnt/.snapshots  
+arch-chroot /mnt snapper --no-dbus -c root create-config /
+arch-chroot /mnt snapper --no-dbus -c home create-config /home  
+arch-chroot /mnt btrfs subvolume delete /.snapshots  
+arch-chroot /mnt mkdir -pv /.snapshots  
+arch-chroot /mnt chmod 750 /.snapshots  
+arch-chroot /mnt chmod a+rx /.snapshots   
+arch-chroot /mnt chown :wheel /.snapshots   
+arch-chroot /mnt mount -a 
+
 infobox "enabling systemd.service"
+systemctl enable snapper-timeline.timer --root=/mnt || error "$LINENO"
+systemctl enable snapper-cleanup.timer  --root=/mnt|| error "$LINENO"
+systemctl enable snapper-boot.timer  --root=/mnt|| error "$LINENO"
+systemctl enable grub-btrfs.path    --root=/mnt|| error "$LINENO"
+systemctl enable btrfs-scrub@home.timer  --root=/mnt || error "$LINENO" 
+systemctl enable btrfs-scrub@-.timer --root=/mnt || error "$LINENO" 
 #systemctl enable lxdm-plymouth.service  	--root=/mnt || error "$LINENO"
 systemctl enable lxdm.service  	--root=/mnt || error "$LINENO"
 systemctl enable NetworkManager.service --root=/mnt	 || error "$LINENO"
