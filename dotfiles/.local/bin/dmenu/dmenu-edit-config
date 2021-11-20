@@ -1,0 +1,71 @@
+#!/bin/bash
+
+declare options=("alacritty
+alacritty_colors
+alacritty_font
+polybar
+polybar_default
+polybar_modules
+zsh
+zshenv
+aliases.zsh
+dwm_config
+st_config
+Xresources
+Xresources_color
+quit")
+
+choice=$(echo -e "${options[@]}" | dmenu -z 900 -x 880 -y 325 -l 10 -p 'Edit config file: ')
+
+case "$choice" in
+	quit)
+		echo "Program terminated." && exit 1
+	;;
+	alacritty)
+		choice="$HOME/.config/alacritty/alacritty.yml"
+	;;
+	alacritty_colors)
+		choice="$HOME/.config/alacritty/colors.yml"
+	;;
+	alacritty_font)
+		choice="$HOME/.config/alacritty/font.yml"
+	;;
+	dunst)
+		choice="$HOME/.config/dunst/dunstrc"
+	;;
+	polybar)
+		choice="$HOME/.config/polybar/config"
+	;;
+	polybar_default)
+		choice="$HOME/.config/polybar/default.ini"
+	;;
+	polybar_modules)
+		choice="$HOME/.config/polybar/modules.ini"
+	;;
+	zshrc)
+		choice="$HOME/.config/zsh/.zshrc"
+	;;
+	zshenv)
+		choice="$HOME/.config/zsh/.zshenv"
+	;;
+	aliases.zsh)
+		choice="$HOME/.config/zsh/lib/aliases.zsh"
+	;;
+	dwm_config)
+		choice="$HOME/suckless/dwm/dwm-testing-cleaning/config.def.h"
+	;;
+	st_config)
+		choice="$HOME/suckless/st/st-flexipatch-testing/config.def.h"
+	;;
+	Xresources)
+		choice="$HOME/.Xresources"
+	;;
+	Xresources_color)
+		choice="$HOME/.Xresources.d/colors"
+	;;
+	*)
+		exit 1
+	;;
+esac
+geany "$choice" &
+# emacsclient -c -a emacs "$choice"

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+microsoft-edge-dev --disk-cache-dir="$XDG_RUNTIME_DIR/microsoft-edge-dev-cache"

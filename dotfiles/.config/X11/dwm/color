@@ -1,0 +1,47 @@
+! Colors from "gruvbox-material" colorscheme
+! https://github.com/sainnhe/gruvbox-material
+
+*color0:#3c3836 /* mix light fg0 */
+*color1:#f2594b /* mix dark red */
+*color2:#b0b846 /* mix dark green */
+*color3:#e9b143 /* mix dark yellow */
+*color4:#80aa9e /* mix dark blue */
+*color5:#d3869b /* mix dark purple */
+*color6:#8bba7f /* mix dark aqua */
+*color7:#e2cca9 /* mix dark fg0 */
+
+*color8:#282828 /* original light fg0 */
+*color9:#fb4934 /* original dark red */
+*color10:#b8bb26 /* original dark green */
+*color11:#fabd2f /* original dark yellow */
+*color12:#83a598 /* original dark blue */
+*color13:#d3869b /* original dark purple */
+*color14:#8ec07c /* original dark aqua */
+*color15:#ebdbb2 /* original dark fg0 */
+
+*Black_Color:#282828
+*White_Color:#d4be98 /* material dark white */
+
+*Red_Color:#ea6962 /* material dark red */
+*Green_Color:#a9b665 /* material dark green */
+*Yellow_Color:#d8a657 /* material dark yellow */
+*Blue_Color:#7daea3 /* material dark blue */
+*Purple_Color:#d3869b /* material dark purple */
+*Aqua_Color:#89b482 /* material dark aqua */
+*Orange_Color:#e78a4e 
+
+*Alt_Red_Color:#ae5858
+*Alt_Green_Color:#6f8352
+*Alt_Yellow_Color:#b4730e
+*Alt_Blue_Color:#266b79
+*Alt_Purple_Color:#924f79
+*Alt_Aqua_Color:#477a5b
+*Alt_Orange_Color:#f28534 /* mix dark orange */
+
+*background:#272727
+*foreground:#d4be98
+*cursorColor : #d8a657
+
+*Foreground_Color:#d4be98 /* material dark fg0 */
+*Background_Color:#2C2827 /* soft dark bg0 */
+*Border_Color:#504945

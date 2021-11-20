@@ -1,0 +1,3 @@
+#!/bin/sh
+
+google-chrome-beta --disk-cache-dir="$XDG_RUNTIME_DIR/chrome-beta-cache"

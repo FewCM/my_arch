@@ -1,0 +1,13 @@
+#!/bin/sh
+case $BLOCK_STATUS in
+    0) ~/.local/bin/dwm/statusbar/volume_click ;;
+	1) ~/.local/bin/dwm/statusbar/terminal ;;
+	2) ~/.local/bin/dwm/statusbar/file_manager ;;
+    3) ~/.local/bin/dwm/statusbar/web_browser ;;
+    4) ~/.local/bin/dwm/statusbar/text_editor ;;
+    5) ~/.local/bin/dwm/statusbar/apps_as_root ;;
+    6) ~/.local/bin/dwm/statusbar/widowslist ;;
+	7) ~/.local/bin/dwm/statusbar/killclient ;;
+    8) ~/.local/bin/dwm/statusbar/statusbutton_click ;;
+    *) notify-send -t 2000 "Unknown status $BLOCK_STATUS clicked $BLOCK_BUTTON" & ;;
+esac

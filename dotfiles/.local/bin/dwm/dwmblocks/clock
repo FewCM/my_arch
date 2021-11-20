@@ -1,0 +1,11 @@
+#!/bin/sh
+#^c#d3869b^
+
+case $BLOCK_BUTTON in
+	1) notify-send $(date +"%I:%M:%S");;
+	3) gsimplecal ;;
+esac
+
+icon="^c#d3869b^ "
+
+date "+$icon %a, %m/%d %I:%M:%S %P"

@@ -1,0 +1,47 @@
+!
+! Generated with :
+! XRDB2Xreources.py
+!
+*foreground:  #e6e1cf
+*background:  #0f1419
+*cursorColor: #f29718
+!
+! Black
+*color0:      #000000
+*color8:      #323232
+!
+! Red
+*color1:      #ff3333
+*color9:      #ff6565
+!
+! Green
+*color2:      #b8cc52
+*color10:     #eafe84
+!
+! Yellow
+*color3:      #e7c547
+*color11:     #fff779
+!
+! Blue
+*color4:      #36a3d9
+*color12:     #68d5ff
+!
+! Magenta
+*color5:      #f07178
+*color13:     #ffa3aa
+!
+! Cyan
+*color6:      #95e6cb
+*color14:     #c7fffd
+!
+! White
+*color7:      #ffffff
+*color15:     #ffffff
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*color256:	#ff8f40
+*color257:	#ffa759
+
+*color258:	#0f1419
+*color259:	#e6e1cf

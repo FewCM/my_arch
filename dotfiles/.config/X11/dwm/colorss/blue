@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+blue="$(xrdb -query | grep '*color4:'| awk '{print $NF}')"
+
+colorswitch () {
+	sed -i -e "s/dwm.selbgcolor:.*/dwm.selbgcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.selbordercolor:.*/dwm.selbordercolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.titleselbgcolor:.*/dwm.titleselbgcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.titleselfloatcolor:.*/dwm.titleselfloatcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.tagsselbgcolor:.*/dwm.tagsselbgcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.tagsselfloatcolor:.*/dwm.tagsselfloatcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.urgbgcolor:.*/dwm.urgbgcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.urgbordercolor:.*/dwm.urgbordercolor:$blue/" ~/.Xresources.d/dwm.xresources
+	sed -i -e "s/dwm.urgfloatcolor:.*/dwm.urgfloatcolor:$blue/" ~/.Xresources.d/dwm.xresources
+	
+	sed -i -e "s/\"Gruvbox-Material-Dark-Soft-.*/\"Gruvbox-Material-Dark-Soft-blue\"/" ~/.xsettingsd
+	sed -i -e "s/\"Gruvbox-Material-Dark-Soft-.*/\"Gruvbox-Material-Dark-Soft-blue\"/" ~/.gtkrc-2.0
+	sed -i -e "s/\Gruvbox-Material-Dark-Soft-.*/\Gruvbox-Material-Dark-Soft-blue/" ~/.config/gtk-3.0/settings.ini
+
+	
+}
+colorswitch 

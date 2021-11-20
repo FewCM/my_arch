@@ -1,0 +1,144 @@
+#!/bin/sh -e
+#  _____ _        _             _
+# /  ___| |      | |           | |
+# \ `--.| |_ __ _| |_ _   _ ___| |__   __ _ _ __
+#  `--. | __/ _` | __| | | / __| '_ \ / _` | '__|
+# /\__/ | || (_| | |_| |_| \__ | |_) | (_| | |
+# \____/ \__\__,_|\__|\__,_|___|_.__/ \__,_|_|
+#
+# MODDWM STATUSBAR - Modular Dynamic Window Manager Statusbar Gruvbox Flavour.
+# ----------------------------------------------------------------------------
+#  "THE BEER-WARE LICENSE" (Revision 42):
+#  Plasmoduck <plasmoduck@gmail.com> wrote this file.  As long as you retain this notice you
+#  can do whatever you want with this stuff. If we meet some day, and you think
+#  this stuff is worth it, you can buy me a beer in return - Plasmoduck.
+# ---------------------------------------------------------------------------- 
+# Terminate already running bar instances
+#killall -q dwmstatusbar
+# Wait until the processes have been shut down
+#while pgrep -u $UID -x dwmstatusbar >/dev/null; do sleep 1; done
+
+print_time (){
+	date "+%I:%M:%S %p" 
+}
+
+print_date (){
+	date "+%a, %d %b %Y"
+}
+
+LOADCOL="^C2^"
+RAMCOL="^C3^"
+DISKCOL="^C4^"
+UPTIMECOL="^C5^"
+TEMPCOL="^C6^"
+TEXTCOL="^C7^"
+SEP="^C1^󰅂"
+
+get_load(){
+  # Get the first line with aggregate of all CPUs
+  cpu_last=($(head -n1 /proc/stat))
+  cpu_last_sum="${cpu_last[@]:1}"
+  cpu_last_sum=$((${cpu_last_sum// /+}))
+
+  sleep 0.5
+
+  cpu_now=($(head -n1 /proc/stat))
+  cpu_sum="${cpu_now[@]:1}"
+  cpu_sum=$((${cpu_sum// /+}))
+
+  cpu_delta=$((cpu_sum - cpu_last_sum))
+  cpu_idle=$((cpu_now[4]- cpu_last[4]))
+  cpu_used=$((cpu_delta - cpu_idle))
+  cpu_usage=$((100 * cpu_used / cpu_delta))
+
+  # Keep this as last for our next read
+  cpu_last=("${cpu_now[@]}")
+  cpu_last_sum=$cpu_sum
+
+  echo "$LOADCOL󰘚 $TEXTCOL$cpu_usage%"
+}
+
+get_temp() {
+  local _temp
+  local f=$(find /sys/class/thermal -maxdepth 1 -name 'thermal_zone*' | sort -r | head -n 1)
+  read _temp < "${f}/temp"
+  _temp=$((_temp / 1000))
+  ret=$_temp
+  temp=$_temp
+  echo "$TEMPCOL󰔏 $TEXTCOL$temp"
+}
+
+cpu_temp() {
+	i=2
+	max=0
+	while [ -f "/sys/class/thermal/thermal_zone$i/temp" ]; do
+		if [ "$(sed 's/[0-9][0-9][0-9]$//' "/sys/class/thermal/thermal_zone$i/temp")" -gt "$max" ]; then
+			max="$(sed 's/[0-9][0-9][0-9]$//' "/sys/class/thermal/thermal_zone$i/temp")"
+		fi
+		i=$((i+1))
+	done
+	echo $max°C
+}
+
+
+get_uptime()
+{
+    UPTIME=$(uptime --pretty | sed 's/up //' | sed 's/\ years\?,/y/' | sed 's/\ weeks\?,/w/' | sed 's/\ days\?,/d/' | sed 's/\ hours\?,\?/h/' | sed 's/\ minutes\?/m/')
+    
+    echo "$UPTIMECOL󰔟 $TEXTCOL$UPTIME"
+}
+
+get_disk()
+{
+    TOTAL_SIZE=$( df -h / | tail -1 | awk {'printf $2'})
+    USED_SIZE=$(df -h / | tail -1 | awk {'printf $3'})
+    PERCENTAGE=$(df -h / | tail -1 | awk {'printf $5'})
+
+    echo "$DISKCOL󰋊 $TEXTCOL$USED_SIZE/$TOTAL_SIZE ($PERCENTAGE)"
+    
+}
+
+
+get_ram()
+{
+    TOTAL_RAM=$(free -mh --si | awk  {'print $2'} | head -n 2 | tail -1)
+    USED_RAM=$(free -mh --si | awk  {'print $3'} | head -n 2 | tail -1)
+    MB="MB"
+
+    echo "$RAMCOL󰡴 $TEXTCOL$USED_RAM/$TOTAL_RAM"
+}
+
+get_kernel()
+{
+	KERNEL=$(uname -sr)
+	echo "$KERNEL"
+}
+
+get_weather()
+{
+	rm ~/.cache/weather > /dev/null
+	COND=$(weather > ~/.cache/weather)
+	echo "$RAMCOL $TEXTCOL $(cat ~/.cache/weather)"
+}
+
+get_cpu()
+{
+	OUTPUT=$(/home/fewcm/.local/bin/dwm/cpu.sh >  /tmp/cpu.txt)
+	echo "$(cat /tmp/cpu.txt)"
+}
+
+
+while true; do
+    xsetroot -name "^b#282828^$(get_load)$SEP$(get_ram)$SEP$(get_disk)$SEP$(get_uptime)$SEP$(get_temp)"
+    sleep 1s
+done
+
+
+
+#while true; do
+ ##   xsetroot -name "^b#282828^$(get_load)$SEP$(get_ram)$SEP$(get_disk)$SEP$(get_uptime)$SEP$(get_temp)"
+   # xsetroot -name "$(printf '\x01$(get_load)$SEP\x01$(get_ram)$SEP\x03$(get_disk)$SEP\x04$(get_uptime)$SEP\x05$(get_temp)')"
+    #sleep 1s
+#done
+
+#^C1^$(get_weather_icons) ^C12^󰅂

@@ -1,0 +1,45 @@
+! Base16 gruvbox-material-dark-hard
+! Scheme: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+
+#define base00 #292828
+#define base01 #32302f
+#define base02 #383432
+#define base03 #3c3836
+#define base04 #c5b18d
+#define base05 #d4be98
+#define base06 #ddc7a1
+#define base07 #e2cca9
+#define base08 #ea6962
+#define base09 #e78a4e
+#define base0A #d8a657
+#define base0B #a9b665
+#define base0C #89b482
+#define base0D #7daea3
+#define base0E #d3869b
+#define base0F #f28534
+
+*foreground:   base05
+#ifdef background_opacity
+*background:   [background_opacity]base00
+#else
+*background:   base00
+#endif
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base09
+*color10:      base01
+*color11:      base02
+*color12:      base04
+*color13:      base06
+*color14:      base0F
+*color15:      base07

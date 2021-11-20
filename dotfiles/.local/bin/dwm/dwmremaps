@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# This script is called on startup to remap keys.
+# Increase key speed via a rate change
+xset r rate 300 50
+xset b off
+xset m 3/2 0
+# Map the caps lock key to super...
+#setxkbmap -option caps:super
+# setxkbmap -option altwin:swap_lalt_lwin 
+# Map the menu button to right super as well.
+xmodmap -e 'keycode 135 = Super_R'
+xmodmap -e 'clear control' -e 'add control = Control_L' -e 'clear mod3' -e 'add mod3 = Control_R'
+#xmodmap -e 'keycode 64 = Super_L'
+#xmodmap -e 'keycode 66 = Alt_L'
+# Turn off the caps lock if on since there is no longer a key for it.
+#xset -q | grep "Caps Lock:\s*on" && xdotool key Caps_Lock
+# Fix cursor
+xsetroot -cursor_name left_ptr

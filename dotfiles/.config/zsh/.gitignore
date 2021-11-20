@@ -1,0 +1,10 @@
+zinit/*
+!zinit/*
+zinit/bin/*
+!zinit/bin/*
+
+*zcompdump*
+*.zcompdump.zwc*
+*.zwc*
+history
+functions/

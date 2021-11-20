@@ -1,0 +1,5 @@
+/** Basic config file **/
+
+configuration {
+  icon-theme:         "Luna-Dark";
+}

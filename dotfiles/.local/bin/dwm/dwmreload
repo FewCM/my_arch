@@ -1,0 +1,266 @@
+#!/usr/bin/env bash
+# A script to get colours from xrdb & deploy it to polybar, alacritty & rofi.
+
+DIR="$HOME/.config"
+
+xrdb $HOME/.config/X11/$DESKTOP_SESSION.xresources
+
+getcolors () {
+	foreground="$(xrdb -query | grep '*foreground:'| awk '{print $NF}')"
+	background="$(xrdb -query | grep '*background:'| awk '{print $NF}')"
+	cursorColor="$(xrdb -query | grep '*cursorColor:'| awk '{print $NF}')"
+	
+	black="$(xrdb -query | grep '*color0:'| awk '{print $NF}')"	
+	alt_black="$(xrdb -query | grep '*alt_black:'| awk '{print $NF}')"
+	red="$(xrdb -query | grep '*color1:'| awk '{print $NF}')"
+	alt_red="$(xrdb -query | grep '*alt_red:'| awk '{print $NF}')"
+	green="$(xrdb -query | grep '*color2:'| awk '{print $NF}')"
+	alt_green="$(xrdb -query | grep '*alt_green:'| awk '{print $NF}')"
+	yellow="$(xrdb -query | grep '*color3:'| awk '{print $NF}')"
+	alt_yellow="$(xrdb -query | grep '*alt_yellow:'| awk '{print $NF}')"
+	blue="$(xrdb -query | grep '*color4:'| awk '{print $NF}')"
+	alt_blue="$(xrdb -query | grep '*alt_blue:'| awk '{print $NF}')"
+	magenta="$(xrdb -query | grep '*color5:'| awk '{print $NF}')"
+	alt_magenta="$(xrdb -query | grep '*alt_magenta:'| awk '{print $NF}')"
+	cyan="$(xrdb -query | grep '*color6:'| awk '{print $NF}')"
+	alt_cyan="$(xrdb -query | grep '*alt_cyan:'| awk '{print $NF}')"
+	white="$(xrdb -query | grep '*color7:'| awk '{print $NF}')"
+	alt_white="$(xrdb -query | grep '*alt_white:'| awk '{print $NF}')"
+	orange="$(xrdb -query | grep '*color16:'| awk '{print $NF}')"
+	alt_orange="$(xrdb -query | grep '*alt_orange:'| awk '{print $NF}')"
+	alt_red1="$(xrdb -query | grep '*color17:'| awk '{print $NF}')"
+	
+	mix_black="$(xrdb -query | grep '*color0:'| awk '{print $NF}')"	
+	original_black="$(xrdb -query | grep '*color8:'| awk '{print $NF}')"	
+	material_black="$(xrdb -query | grep '*Black_Color:'| awk '{print $NF}')"
+	
+	mix_red="$(xrdb -query | grep '*color1:'| awk '{print $NF}')"	
+	original_red="$(xrdb -query | grep '*color9:'| awk '{print $NF}')"	
+	Red_Color="$(xrdb -query | grep '*Red_Color:'| awk '{print $NF}')"
+	Alt_Red_Color="$(xrdb -query | grep '*Alt_Red_Color:'| awk '{print $NF}')"
+	
+	mix_green="$(xrdb -query | grep '*color2:'| awk '{print $NF}')"	
+	original_green="$(xrdb -query | grep '*color10:'| awk '{print $NF}')"	
+	Green_Color="$(xrdb -query | grep '*Green_Color:'| awk '{print $NF}')"
+	Alt_Green_Color="$(xrdb -query | grep '*Alt_Green_Color:'| awk '{print $NF}')"
+	
+	mix_yellow="$(xrdb -query | grep '*color3:'| awk '{print $NF}')"	
+	original_yellow="$(xrdb -query | grep '*color11:'| awk '{print $NF}')"	
+	Yellow_Color="$(xrdb -query | grep '*Yellow_Color:'| awk '{print $NF}')"
+	Alt_Yellow_Color="$(xrdb -query | grep '*Alt_Yellow_Color:'| awk '{print $NF}')"
+	
+	mix_blue="$(xrdb -query | grep '*color4:'| awk '{print $NF}')"	
+	original_blue="$(xrdb -query | grep '*color12:'| awk '{print $NF}')"	
+	Blue_Color="$(xrdb -query | grep '*Blue_Color:'| awk '{print $NF}')"
+	Alt_Blue_Color="$(xrdb -query | grep '*Alt_Blue_Color:'| awk '{print $NF}')"
+	
+	mix_purple="$(xrdb -query | grep '*color5:'| awk '{print $NF}')"	
+	original_purple="$(xrdb -query | grep '*color13:'| awk '{print $NF}')"	
+	Purple_Color="$(xrdb -query | grep '*Purple_Color:'| awk '{print $NF}')"
+	Alt_Purple_Color="$(xrdb -query | grep '*Alt_Purple_Color:'| awk '{print $NF}')"
+	
+	mix_aqua="$(xrdb -query | grep '*color6:'| awk '{print $NF}')"	
+	original_aqua="$(xrdb -query | grep '*color14:'| awk '{print $NF}')"	
+	Aqua_Color="$(xrdb -query | grep '*Aqua_Color:'| awk '{print $NF}')"
+	Alt_Aqua_Color="$(xrdb -query | grep '*Alt_Aqua_Color:'| awk '{print $NF}')"
+	
+	Orange_Color="$(xrdb -query | grep '*Orange_Color:'| awk '{print $NF}')"
+	Alt_Orange_Color="$(xrdb -query | grep '*Alt_Orange_Color:'| awk '{print $NF}')"
+	
+	mix_white="$(xrdb -query | grep '*color7:'| awk '{print $NF}')"	
+	original_white="$(xrdb -query | grep '*color15:'| awk '{print $NF}')"	
+	material_white="$(xrdb -query | grep '*White_Color:'| awk '{print $NF}')"
+	
+	material_orange="$(xrdb -query | grep '*Orange_Color:'| awk '{print $NF}')"
+	mix_orange="$(xrdb -query | grep '*Dark_Orange_Color:'| awk '{print $NF}')"
+	
+	border_Color="$(xrdb -query | grep '*Border_Color:'| awk '{print $NF}')"
+}
+getcolors
+
+
+
+dwmbar () {
+	cat > $DIR/polybar/color <<- EOF	
+	[color]
+
+	FOREGROUND = ${foreground}
+	BACKGROUND = ${background}
+	BLACK = ${BLACK}
+	RED = ${RED}
+	green = ${green}
+	YELLOW = ${YELLOW}
+	BLUE = ${BLUE}
+	MAGENTA = ${MAGENTA}
+	CYAN = ${CYAN}
+	WHITE = ${WHITE}
+	ALTBLACK = ${ALTBLACK}
+	ALTRED = ${ALTRED}
+	ALTGREEN = ${ALTGREEN}
+	ALTYELLOW = ${ALTYELLOW}
+	ALTBLUE = ${ALTBLUE}
+	ALTMAGENTA = ${ALTMAGENTA}
+	ALTCYAN = ${ALTCYAN}
+	ALTWHITE = ${ALTWHITE}
+	EOF
+}
+#dwmbar
+
+dwmterm () {
+	cat > "$DIR"/alacritty/colors.yml <<- _EOF_
+		## Colors configuration
+		colors:
+		  # Default colors
+		  primary:
+		    background: '${background}'
+		    foreground: '${foreground}'
+
+		  # Normal colors
+		  normal:
+		    black:   '${black}'
+		    red:     '${red}'
+		    green:   '${green}'
+		    yellow:  '${yellow}'
+		    blue:    '${blue}'
+		    magenta: '${magenta}'
+		    cyan:    '${cyan}'
+		    white:   '${white}'
+
+		  # Bright colors
+		  bright:
+		    black:   '${alt_black}'
+		    red:     '${alt_red}'
+		    green:   '${alt_green}'
+		    yellow:  '${alt_yellow}'
+		    blue:    '${alt_blue}'
+		    magenta: '${alt_magenta}'
+		    cyan:    '${alt_cyan}'
+		    white:   '${alt_white}'
+	_EOF_
+}
+#dwmterm
+
+dwmrofi () {
+	cat > $DIR/rofi/themes/colors.rasi <<- EOF	
+	* {
+		background:			${backgroundColor};
+		foreground:			${foregroundColor};
+		selected:			${blue};
+		urgent:				${red};
+		on:					${green};
+		off:				${red};
+		
+		border:				${borderColor};
+		se:      			${backgroundColor};
+		fg:      			${foregroundColor};
+		ac:      			${orange};
+		red:     			${alt_red};
+		green:   			${alt_green};
+		yellow:  			${alt_yellow};
+		blue:    			${alt_blue};
+		purple:  			${alt_magenta};
+		cyan:    			${alt_cyan};
+		}
+	EOF
+}
+#dwmrofi
+
+
+dwmcolors () {
+	sed -i -e "s/dwm.normfgcolor:.*/dwm.normfgcolor:$foreground/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.normbgcolor:.*/dwm.normbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.normbordercolor:.*/dwm.normbordercolor:$border_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.normfloatcolor:.*/dwm.normfloatcolor:$black/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	
+	sed -i -e "s/dwm.selfgcolor:.*/dwm.selfgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.selbgcolor:.*/dwm.selbgcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.selbordercolor:.*/dwm.selbordercolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.selfloatcolor:.*/dwm.selfloatcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	
+	sed -i -e "s/dwm.titlenormfgcolor:.*/dwm.titlenormfgcolor:$foreground/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titlenormbgcolor:.*/dwm.titlenormbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titlenormbordercolor:.*/dwm.titlenormbordercolor:$border_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titlenormfloatcolor:.*/dwm.titlenormfloatcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+
+	sed -i -e "s/dwm.titleselfgcolor:.*/dwm.titleselfgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titleselbgcolor:.*/dwm.titleselbgcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titleselbordercolor:.*/dwm.titleselbordercolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.titleselfloatcolor:.*/dwm.titleselfloatcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+
+	sed -i -e "s/dwm.tagsnormfgcolor:.*/dwm.tagsnormfgcolor:$foreground/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsnormbgcolor:.*/dwm.tagsnormbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsnormbordercolor:.*/dwm.tagsnormbordercolor:$border_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsnormfloatcolor:.*/dwm.tagsnormfloatcolor:$Yellow_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+
+	sed -i -e "s/dwm.tagsselfgcolor:.*/dwm.tagsselfgcolor:$foreground/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsselbgcolor:.*/dwm.tagsselbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsselbordercolor:.*/dwm.tagsselbordercolor:$border_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.tagsselfloatcolor:.*/dwm.tagsselfloatcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+
+	sed -i -e "s/dwm.hidnormfgcolor:.*/dwm.hidnormfgcolor:$Aqua_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.hidselfgcolor:.*/dwm.hidselfgcolor:$Yellow_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.hidnormbgcolor:.*/dwm.hidnormbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.hidselbgcolor:.*/dwm.hidselbgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+
+	sed -i -e "s/dwm.urgfgcolor:.*/dwm.urgfgcolor:$background/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.urgbgcolor:.*/dwm.urgbgcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.urgbordercolor:.*/dwm.urgbordercolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+	sed -i -e "s/dwm.urgfloatcolor:.*/dwm.urgfloatcolor:$Red_Color/" $HOME/.config/X11/$DESKTOP_SESSION/$DESKTOP_SESSION
+}
+dwmcolors
+
+
+dwmdunst () {
+	cat > "$DIR/dunst"/sid <<- _EOF_
+		Dark
+	_EOF_
+	
+	sed -i '/urgency_low/Q' "$DIR/dunst"/dunstrc
+	cat >> "$DIR/dunst"/dunstrc <<- _EOF_
+		[urgency_low]
+		timeout = 2
+		background = "${backgroundColor}"
+		foreground = "${foregroundColor}"
+		frame_color = "${blue}"
+
+		[urgency_normal]
+		timeout = 5
+		background = "${backgroundColor}"
+		foreground = "${foregroundColor}"
+		frame_color = "${blue}"
+
+		[urgency_critical]
+		timeout = 0
+		background = "${background}"
+		foreground = "${red}"
+		frame_color = "${red}"
+	_EOF_
+	
+	pkill dunst && dunst &
+}
+#dwmdunst
+
+#sleep 1s
+
+randomize_color(){
+	rcolor="red"
+	dir="$HOME/.Xresources.d/color"
+	
+	rcolors=($(ls -p $dir))
+	rcolor="${rcolors[$(( $RANDOM % 5 ))]}"
+	#apply random color
+
+	/home/fewcm/.Xresources.d/color/$rcolor
+}
+#randomize_color
+
+merge() {
+	xrdb -merge $HOME/.config/X11/$DESKTOP_SESSION.xresources
+}
+
+uireload() {
+	merge | dwmc xrdb | kill -HUP $(pidof dwm)
+}
+uireload
+
+

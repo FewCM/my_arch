@@ -1,0 +1,20 @@
+#include "/home/fewcm/.config/X11/dwm/color"
+#include "/home/fewcm/.config/X11/dwm/dwm"
+
+st.font: Iosevka Term,Iosevka Nerd Font:style=Regular:size=12:antialias=true:autohint=true
+st.borderpx: 15
+xmenu.font: JetBrainsMono Nerd Font:style=Regular:pixelsize=12:antialias=true
+
+xmenu.background_color : #FFFFFF
+xmenu.foreground_color : #2E3436
+xmenu.selbackground_color : #3584E4
+xmenu.selforeground_color : #FFFFFF
+xmenu.separator_color : #CDC7C2
+xmenu.border_color : #E6E6E6
+
+dmenu.background    : #2C2827
+dmenu.foreground    : #d4be98
+dmenu.selbackground : #2C2827
+dmenu.selforeground : #ae5858
+ 
+Xft.dpi:	96

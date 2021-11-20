@@ -1,0 +1,52 @@
+[user]
+	email = sweewei.tham@gmail.com
+	name = FewCM
+	signingkey = 941757AAE8D74892
+[color]
+	branch = auto
+	interactive = auto
+	diff = auto
+	status = auto
+	ui = auto
+[color "branch"]
+    current = red reverse
+    local = blue
+    remote = green
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red bold
+    new = green
+    plain = white
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[core]
+	quotepath = off
+	excludesfile = /home/fewcm/.gitignore
+	editor = micro
+[i18n]
+	logoutputencoding = utf8
+	commitencoding = utf8
+[apply]
+	whitespace = nowarn
+[push]
+    default = current
+[pull]
+    default = current
+	rebase = false
+[alias]
+	ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate --date=relative
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [a:%an,c:%cn]" --decorate --numstat
+    lc  = "!f() { git ll "$1"^.."$1"; }; f"
+	cl = clone
+    ci = commit
+    co = checkout
+    br = branch
+[git-extras]
+	github-personal-access-token = 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
+	default-branch = main
+[init]
+	defaultBranch = main
