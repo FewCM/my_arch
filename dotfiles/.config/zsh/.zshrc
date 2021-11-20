@@ -2,13 +2,16 @@
 zmodload zsh/zprof 
 typeset -F4 SECONDS=0
 
+# zinit
 declare -A ZINIT
 
-export ZINIT[HOME_DIR]="$ZDOTDIR/zinit"
-export ZINIT[BIN_DIR]="$ZDOTDIR/zinit/bin"
+export ZINIT[HOME_DIR]="$XDG_DATA_HOME/zinit"
+export ZINIT[BIN_DIR]="$XDG_DATA_HOME/zinit/bin"
 
-ZINIT_HOME="${ZINIT_HOME:-${ZPLG_HOME:-${ZDOTDIR:-${HOME}}/zinit}}"
+ZINIT_HOME="${ZINIT_HOME:-${ZPLG_HOME:-${XDG_DATA_HOME:-${HOME}}/zinit}}"
 ZINIT_BIN_DIR_NAME="${${ZINIT_BIN_DIR_NAME:-${ZPLG_BIN_DIR_NAME}}:-bin}"
+ZPFX="$XDG_DATA_HOME"/zinit/polaris
+SPACESHIP_ROOT="$XDG_DATA_HOME"/zinit/plugins/spaceship-prompt---spaceship-prompt
 
 ### Added by Zinit's installer
 if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
@@ -26,7 +29,10 @@ fi
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit installer's chunk
+
+# A binary Zsh module which transparently and automatically compiles sourced scripts
+module_path+=( "/home/fewcm/.local/share/zinit/module/Src" )
+zmodload zdharma_continuum/zinit &>/dev/null
 
 zinit ice wait depth'1' lucid
 zinit light bigH/auto-sized-fzf
@@ -36,20 +42,12 @@ zinit ice wait'0e' multisrc"01-zopts.zsh\
  05-alias-reveal.zsh 06-functions.zsh 08-autoload.zsh 09-bash.command-not-found"  lucid
 zinit light $ZDOTDIR/zlib
 
-# atload"_alias-tip-setting"
-# 08-fuzzy_commands.sh
-
-# A binary Zsh module which transparently and automatically compiles sourced scripts
-module_path+=( "/home/fewcm/.config/zsh/zinit/bin/zmodules/Src" )
-zmodload zdharma/zplugin &>/dev/null
-
+# colors {{{
 zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
     atpull'%atclone' pick"clrs.zsh" nocompile'!' \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zinit light trapd00r/LS_COLORS
-#eval $( dircolors -b $HOME/LS_COLORS)
 
-# colors {{{
 zinit light 'chrissicool/zsh-256color'
 # }}}
 
@@ -64,7 +62,6 @@ zinit light zsh-users/zsh-autosuggestions
 
 zinit ice wait'0a' blockf lucid atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
-
 
 zinit lucid from'gh-r' as'program' for \
   mv'bat* -> bat' \
@@ -115,10 +112,10 @@ zinit light jeffreytse/zsh-vi-mode
 zinit ice wait'0b' lucid atload'source $ZDOTDIR/zlib/plugin_option/zsh-history-substring-search.zsh'
 zinit light zsh-users/zsh-history-substring-search
 
-zinit ice depth'1' lucid wait'0' atinit'_zpcompinit_custom; zpcdreplay'
-zinit light zdharma-continuum/fast-syntax-highlighting
+zinit ice depth'1' lucid wait'0' atinit'ZINIT[COMPINIT_OPTS]=-C;_zpcompinit_custom; zpcdreplay'
+zinit light zsh-users/zsh-syntax-highlighting
 
 chpwd() exa --icons --color=always 
-#source /usr/share/doc/pkgfile/command-not-found.zsh
 
 print "[zshrc] ZSH took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
+

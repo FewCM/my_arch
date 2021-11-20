@@ -115,7 +115,6 @@ export CORRECT_IGNORE_FILE='.*'
 export QT_QPA_PLATFORMTHEME="qt5ct"
 #export QT_QPA_PLATFORMTHEME=gtk2
 
-
 export ZSHZ_CMD="z"
 export ZSHZ_DATA="$ZDOTDIR/.z"
 export ZSHZ_ECHO=1

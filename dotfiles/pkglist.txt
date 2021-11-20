@@ -263,7 +263,6 @@ vpnc
 w3m
 which
 wimlib
-wired
 wireless-regdb
 wireless_tools
 wmctrl
