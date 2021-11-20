@@ -53,7 +53,7 @@ arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/xdg/reflector/reflector.con
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/etc/updatedb.conf /etc/  || error "$LINENO"
 
 infobox  "configuring system hooks"
-arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/share/libalpm/hooks/{90-nvi dia.hook,99-fewcm-grub.hook,foreignpkglist.hook,pkglist.hook} /usr/share/libalpm/hooks/ || error "$LINENO"
+arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/share/libalpm/hooks/{90-nvidia.hook,99-fewcm-grub.hook,foreignpkglist.hook,pkglist.hook} /usr/share/libalpm/hooks/ || error "$LINENO"
 arch-chroot /mnt cp -f /home/fewcm/Git/dotfiles/usr/local/bin/{flexipatch-finalizer.sh,screenrecorder,takeshot,update-grub} /usr/local/bin || error "$LINENO"
 arch-chroot /mnt chmod +x /usr/local/bin/{flexipatch-finalizer.sh,screenrecorder,takeshot,update-grub} || error "$LINENO"
 

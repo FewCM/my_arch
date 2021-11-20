@@ -47,7 +47,7 @@ arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/.config /root
 arch-chroot /mnt cp -rf /home/fewcm/Git/dotfiles/.local /root  
 
 infobox "Copying dotfiles to user directoty"
-arch-chroot /mnt sudo -u fewcm bash -c 'cp -rf /home/fewcm/Git/dotfiles/{pkglist.txt,foreignpkglist.txt,.dmrc,.gitignore,.hushlogin,.Xresources,.xsettingsd,.zshenv} /home/fewcm/'
+arch-chroot /mnt sudo -u fewcm bash -c 'cp -rf /home/fewcm/Git/dotfiles/{.dmrc,.gitignore,.hushlogin,.Xresources,.xsettingsd,.zshenv} /home/fewcm/'
 arch-chroot /mnt sudo -u fewcm bash -c 'cp -rf /home/fewcm/Git/dotfiles/Pictures /home/fewcm'
 arch-chroot /mnt sudo -u fewcm bash -c 'cp -rf /home/fewcm/Git/dotfiles/.config /home/fewcm'
 arch-chroot /mnt sudo -u fewcm bash -c 'cp -rf /home/fewcm/Git/dotfiles/.local /home/fewcm'

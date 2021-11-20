@@ -80,6 +80,7 @@ gperf
 grep
 groff
 grub
+grub-btrfs
 grub2-theme-default
 gst-libav
 gst-plugins-bad
@@ -171,7 +172,7 @@ ntfs-3g
 nvme-cli
 openconnect
 openvpn
-os-prober
+os-prober-btrfs
 p7zip
 pacman
 pamixer

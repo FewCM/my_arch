@@ -80,7 +80,7 @@ echo "" >> /mnt/etc/default/grub
 echo -e "# Booting with BTRFS subvolume\nGRUB_BTRFS_OVERRIDE_BOOT_PARTITION_DETECTION=true" >> /mnt/etc/default/grub 
 sed -i -e 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=2560x1080/g'	/mnt/etc/default/grub 	 
 sed -i 's/#GRUB_THEME.*/GRUB_THEME="\/boot\/grub\/themes\/default\/theme.txt"/g' /mnt/etc/default/grub 	 
-sed -i -e 's|GRUB_DISABLE_RECOVERY=true|#GRUB_DISABLE_RECOVERY=true|g' /mnt/etc/default/grub
+#sed -i -e 's|GRUB_DISABLE_RECOVERY=true|#GRUB_DISABLE_RECOVERY=true|g' /mnt/etc/default/grub
 #sed -i -e 's|GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet fbcon=nodefer lsm=landlock,lockdown,yama,apparmor,bpf"|g' /mnt/etc/default/grub
 sed -i -e 's|GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="fbcon=nodefer quiet splash vt.global_cursor_default=0 loglevel=3 rd.systemd.show_status=false rd.udev.log-priority=3 sysrq_always_enabled=1 lsm=landlock,lockdown,yama,apparmor,bpf"|g' /mnt/etc/default/grub
 sed -i 's#rootflags=subvol=${rootsubvol}##g' /mnt/etc/grub.d/10_linux 
