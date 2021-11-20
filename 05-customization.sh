@@ -142,7 +142,7 @@ for app in "${apps[@]}"; do
 	fi
 done
 
-#arch-chroot /mnt sudo -u fewcm bash -c 'gh extension install jongio/gh-setup-git-credential-helper'
-#arch-chroot /mnt sudo -u fewcm bash -c 'gh setup-git-credential-helper'
+#gh extension install jongio/gh-setup-git-credential-helper
+#gh setup-git-credential-helper
 
 echo "Done!"
