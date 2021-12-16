@@ -35,9 +35,6 @@ infobox "adding new user to sudoers"
 echo "%wheel      ALL=(ALL) ALL" >> /mnt/etc/sudoers	  
 echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/mount" >> /mnt/etc/sudoers	  
 echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/umount" >> /mnt/etc/sudoers	  
-echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman -Syu" >> /mnt/etc/sudoers	  
-echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman -Syyu --noconfirm" >> /mnt/etc/sudoers	  
-echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/loadkeys" >> /mnt/etc/sudoers	  
 echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/extra-x86_64-build" >> /mnt/etc/sudoers	  
 echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/arch-nspawn" >> /mnt/etc/sudoers	  
 echo "%wheel ALL=(ALL) NOPASSWD: /usr/bin/makechrootpkg" >> /mnt/etc/sudoers	  
@@ -57,43 +54,6 @@ echo "root:${ROOT_PASSWD}" | chpasswd
 echo "Setting user password"
 echo "$NEW_USER:${USER_PASSWD}" | chpasswd
 EOF
-
-# Configure AppArmor Parser caching
-sed -i 's/#write-cache/write-cache/g' /mnt/etc/apparmor/parser.conf || error "$LINENO"
-sed -i 's/#Include \/etc\/apparmor.d/Include \/etc\/apparmor.d/g' /mnt/etc/apparmor/parser.conf || error "$LINENO"
-
-# Enabling CPU Mitigations
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/default/grub.d/40_cpu_mitigations.cfg >> /mnt/etc/grub.d/40_cpu_mitigations	 || error "$LINENO"
-
-# Distrusting the CPU
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/default/grub.d/40_distrust_cpu.cfg >> /mnt/etc/grub.d/40_distrust_cpu	 || error "$LINENO"
-
-# Enabling IOMMU
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/default/grub.d/40_enable_iommu.cfg >> /mnt/etc/grub.d/40_enable_iommu	 || error "$LINENO"
-
-# Setting GRUB configuration file permissions
-#chmod 755 /mnt/etc/grub.d/* 	 || error "$LINENO"
-
-# Blacklisting kernel modules
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/modprobe.d/30_security-misc.conf >> /mnt/etc/modprobe.d/30_security-misc.conf || error "$LINENO"
-#chmod 600 /mnt/etc/modprobe.d/* || error "$LINENO"
-
-# Security kernel settings.
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/sysctl.d/30_security-misc.conf >> /mnt/etc/sysctl.d/30_security-misc.conf || error "$LINENO"  
-#sed -i 's/kernel.yama.ptrace_scope=2/kernel.yama.ptrace_scope=3/g' /mnt/etc/sysctl.d/30_security-misc.conf || error "$LINENO"
-#curl https://raw.githubusercontent.com/Whonix/security-misc/master/etc/sysctl.d/30_silent-kernel-printk.conf >> /mnt/etc/sysctl.d/30_silent-kernel-printk.conf || error "$LINENO"
-#chmod 600 /mnt/etc/sysctl.d/* || error "$LINENO"
-
-# IO udev rules
-#curl https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-common-settings/-/raw/master/etc/udev/rules.d/50-sata.rules > /mnt/etc/udev/rules.d/50-sata.rules || error "$LINENO"
-#curl https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-common-settings/-/raw/master/etc/udev/rules.d/60-ioschedulers.rules > /etc/udev/rules.d/60-ioschedulers.rules || error "$LINENO"
-#chmod 600 /mnt/etc/udev/rules.d/* || error "$LINENO"
-
-# Remove nullok from system-auth
-#sed -i 's/nullok//g' /mnt/etc/pam.d/system-auth || error "$LINENO"
-
-# Disable coredump
-#echo "* hard core 0" >> /mnt/etc/security/limits.conf || error "$LINENO"
 
 # Disable su for non-wheel users
 bash -c 'cat > /mnt/etc/pam.d/su' <<-'EOF'

@@ -6,15 +6,15 @@ exec 1> >(tee "stdout.log")
 exec 2> >(tee "stderr.log" >&2)
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
-DISK="/dev/nvme0n1"
+#DISK="/dev/nvme0n1"
 NEW_USER="fewcm"
 HOSTNAME="MyArxh"
 LOCALE="en_US.UTF-8"
 KEYMAP="us"      
 ROOT_PASSWD="1007"
 USER_PASSWD="1007"
-ESP="/dev/nvme0n1p1"
-ARCH_ROOT="/dev/nvme0n1p2"
+#ESP="/dev/nvme0n1p1"
+#ARCH_ROOT="/dev/nvme0n1p2"
 BTRFS_OPTS="ssd,noatime,space_cache=v2,autodefrag,compress=zstd:15,discard=async,X-mount.mkdir"
        
 # Colors to make things look nice

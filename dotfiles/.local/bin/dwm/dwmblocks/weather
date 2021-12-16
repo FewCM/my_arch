@@ -1,3 +1,0 @@
-#!/bin/sh
-
-python /home/fewcm/.local/bin/dwm/dwmblocks/weather.py

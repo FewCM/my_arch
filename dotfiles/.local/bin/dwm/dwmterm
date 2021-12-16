@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# launch alacritty with bspwm config
-alacritty --config-file $HOME/.config/alacritty/alacritty.yml
-

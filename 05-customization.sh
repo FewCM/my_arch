@@ -61,7 +61,7 @@ arch-chroot /mnt chmod +x /usr/local/bin/{flexipatch-finalizer.sh,screenrecorder
 infobox "Configuring /etc/mkinitcpio.conf"
 sed -i -e 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g'  /mnt/etc/mkinitcpio.conf
 sed -i 's,#COMPRESSION="zstd",COMPRESSION="zstd",g' /mnt/etc/mkinitcpio.conf
-sed -i -e 's/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck grub-btrfs-overlayfs)/g'  /mnt/etc/mkinitcpio.conf
+sed -i -e 's/HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev autodetect keyboard modconf block encrypt filesystems fsck grub-btrfs-overlayfs)/g'  /mnt/etc/mkinitcpio.conf
 micro /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P 
 
